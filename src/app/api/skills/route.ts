@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
 
         const jobWord = intent?.job_word ?? jobTitle.trim();
         const isFirstPage = !lastFreq && !lastName;
-        const cacheKey = `skills:${hash({
+        const cacheKey = `skills-real:${hash({
             jobWord,
             locations,
             levels,
