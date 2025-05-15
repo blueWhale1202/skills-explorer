@@ -1,56 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Job Skills Explorer
 
-## Getting Started
+A web-based platform to **analyze and visualize in-demand job skills** across thousands of job descriptions from online recruitment sites.
 
-First, run the development server:
+> Supports **multi-filter queries** by job title, location, seniority level, and posting date. Returns **ranked skills** with real-time frequency analysis.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📊 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* 🔍 **Search by job title** (e.g. `Backend Developer`)
+* 🎯 **Filter by**:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+  * Experience level: `Intern`, `Junior`, `Senior`, etc.
+  * Location: `Ho Chi Minh City`, `Hanoi`, etc.
+  * Updated date: Filter job postings by recency (e.g., after `2025-01-01`)
+  * Skill type:
 
-## Learn More
+    * **Soft Skills** (e.g. `Communication`, `Teamwork`)
+    * **Technical Skills** (e.g. `Python`, `SQL`, `AWS`)
+* 📈 **Get skill frequency** (e.g. `Python - 84.3%` of matched jobs)
+* ⚡ Handles **big data** (over **1 million** job descriptions)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 How It Works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Normalize user intent** using `keyword_alias` to map search input to canonical job words.
+2. **Filter** by `location`, `seniority_level`, and `posted_date` (default: last 6 months).
+3. **Match jobs** using a 3-tier strategy:
 
-## Deploy on Vercel
+   * Full-text search on canonical `job_word`
+   * Fallback full-text search on raw user input
+   * Fuzzy match on tokenized job title (similarity ≥ 0.3)
+4. **Aggregate and compute** skill frequency based on matched jobs.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧰 Tech Stack
 
-## Start Redis
+| Component       | Technology                  |
+| --------------- | --------------------------- |
+| Framework       | **Next.js 15 (App Router)** |
+| Client Fetching | TanStack Query              |
+| Database        | PostgreSQL (Raw SQL)        |
+| Caching         | Redis                       |
+| Validation      | Zod                         |
+| UI Framework    | Tailwind CSS, shadcn/ui     |
 
-```bash
-# step 1: Start Redis
-sudo systemctl start redis-server
-# step 2: Check Redis status
-sudo systemctl status redis-server
-```
+---
 
-## Clear Redis Cache
+## ✨ Example Query Output
 
-```bash
-# step 1: Connect to Redis
-redis-cli
-# step 2: Flush all keys
-redis-cli --raw keys "skills:*" | xargs redis-cli del
-# step 3: Check again
-redis-cli keys "skills:*"
-```
+* **Search**: `Data`
+* **Filter**: `4 levels`, `2 locations`, `Updated after: 2024-11-15`
+* **Result**: `Matched 911 jobs`, `Top Skills:`
+
+  * `Analytical skills (Soft)` - 90.8%
+  * `SQL (Technical)` - 84.4%
+  * `Python (Technical)` - 84.3%
+  * `Teamwork (Soft)` - 51.3%
+
+---
+
+## 🚀 Performance Note
+
+* Optimized for **large-scale data** (1M+ rows) using materialized views and indexed full-text search.
+* Redis caching is applied to first-page queries for **faster retrieval** (TTL: 30 minutes).
+
+---
+
+## 📅 Last Updated
+
+* **Data last updated**: `15/05/2025`
+* **Query time sample**: `~492ms`
+
+---
+
+## 🚀 Future Roadmap
+
+### 🔍 Search Optimization
+
+* **Scalable Infrastructure**: As data volume grows, transition backend processing to distributed systems such as **Apache Spark**, **Hadoop**, or adopt **cloud-native data pipelines** to ensure high-throughput analytics.
+* **Smarter Search Engine**: Replace PostgreSQL-based fuzzy search with **semantic search technologies** like **Elasticsearch** or **Vector DBs**, enabling faster, context-aware, and scalable matching of job titles and user queries.
+
+### 🌱 Feature Expansion
+
+* **CV Skill Gap Analyzer**: Empower users to upload their CVs and select a desired job role. The system will **analyze current skill sets**, compare them with market demands, and **highlight missing or underdeveloped skills**.
+* **Smart Career Suggestions**: For users without a defined target role, the platform will **analyze their CVs** and provide **personalized career path recommendations** based on their existing skills and market trends.
