@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     openGraph: {
         type: "website",
         locale: "en_US",
-        url: "https://skills-explorer.vercel.app",
+        url: "https://skills-explorer-eight.vercel.app/",
         title: "Job Skills Explorer | Find In-Demand Skills for Your Career",
         description:
             "Discover the most in-demand skills for different job positions. Search by job title, experience level, and location.",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
         },
     },
     alternates: {
-        canonical: "https://skills-explorer.vercel.app",
+        canonical: "https://skills-explorer-eight.vercel.app/",
     },
 };
 
