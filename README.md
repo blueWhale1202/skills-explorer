@@ -1,4 +1,4 @@
-# 🧠 Job Skills Explorer
+# 🧠 HIRELENS
 
 A web-based platform to **analyze and visualize in-demand job skills** across thousands of job descriptions from online recruitment sites.
 
